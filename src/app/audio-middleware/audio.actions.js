@@ -1,5 +1,9 @@
 import AudioActionTypes from './audio.actions.types';
 
+export const initAudio = () => ({
+    type: AudioActionTypes.INIT_AUDIO,
+})
+
 
 export const playGrain = (grain) => ({
     type : AudioActionTypes.PLAY_GRAIN,

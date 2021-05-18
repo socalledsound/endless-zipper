@@ -3,7 +3,9 @@
 // const { colorScaleWaveform } = globalSettings
 
 export const initBuffer = async (context, url) => {
+    // console.log(url)
     const response = await fetch(url);
+    // console.log(response)
     const ab = await response.arrayBuffer();
     const buffer = await context.decodeAudioData(ab);
     return buffer

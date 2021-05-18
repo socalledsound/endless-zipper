@@ -12,6 +12,11 @@ const audioMiddleWare = store => {
 
         switch (action.type){
             
+            case AudioActionTypes.INIT_AUDIO :
+                audio.init()
+                break    
+
+
             case AudioActionTypes.PLAY_GRAIN :
                 // console.log(action);
                 audio.playGrain(action.payload.grain);

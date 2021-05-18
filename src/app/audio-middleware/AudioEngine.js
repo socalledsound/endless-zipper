@@ -1,8 +1,8 @@
 import { store } from '../store'
-import soundsInfo from '../sounds-info/SoundsInfo'
+import { sounds } from '../sounds-info/sounds'
 // import { addAudioContext, addItemToPlayingSoundsList } from '../sounds-info/soundsInfo.actions'
 // import Voice from '../../redux/granular/granular-objects/Voice'
-import {  getRandom } from '../../utils'
+// import {  getRandom } from '../../utils'
 import { initBuffer, reverseBuffers, getSoundFileData } from './audio.utils'
 // import { addVoice, loaded } from '../granular/granular.actions'
 
@@ -14,28 +14,29 @@ const Context = window.AudioContext || window.webkitAudioContext;
 
 class AudioEngine {
     constructor(numBuffers){
-        this.audioContext = new Context();
-        this.masterVolume = this.audioContext.createGain();
+        this.sounds = sounds;
         this.buffers = [];
         this.reversedBuffers = [];
         this.soundFileDatas = [];
         // this.indexes = Array.from({ length : numSounds}, (el, i) => i);
         // this.sources = Array.from({ length: numSounds});
         // this.playingSounds = Array.from({length : numSounds}, () => false);
-        this.init();
+        //this.init();
     }
 
     init(){
-        this.initSoundBuffers().then((buffers) => {
+        this.audioContext = new Context();
+        this.masterVolume = this.audioContext.createGain();
+        this.initSoundBuffers(this.sounds).then((buffers) => {
             this.buffers = buffers;
             this.reversedBuffers = reverseBuffers(buffers);
             this.soundFileDatas = getSoundFileData(buffers);
             // store.dispatch(loaded())
             // store.dispatch(initSoundFileData(this.soundFileDatas));
             // store.dispatch(addAudioContext(this.audioContext))
-            const currentSetting = store.getState().controls.currentControlsSetting
-            const bufnums = Array.from({ length: currentSetting.numVoices}, () => Math.floor(getRandom(0, this.soundFileDatas.length)));
-            bufnums.forEach((bufnum, i) => {
+            //const currentSetting = store.getState().controls.currentControlsSetting
+            //const bufnums = Array.from({ length: currentSetting.numVoices}, () => Math.floor(getRandom(0, this.soundFileDatas.length)));
+            //bufnums.forEach((bufnum, i) => {
                     //store.dispatch(addVoice(new Voice(i, bufnum, this.soundFileDatas[bufnum], i < currentSetting.numVoices ? false : true)))
                     // store.dispatch(addItemToVoicesList())
                    
@@ -43,7 +44,7 @@ class AudioEngine {
                     //     store.dispatch(addItemToPlayingSoundsList(soundsInfo[i]))
                     // }
                    
-                })
+                //})
             
            
            
@@ -52,9 +53,11 @@ class AudioEngine {
 
 
 
-    initSoundBuffers = async () => {
-        //this.initSoundBuffers().then( (buffers) => console.log(buffers)); 
-        return Promise.all(soundsInfo.map(soundInfo => initBuffer(this.audioContext, soundInfo.src)));   
+    initSoundBuffers = async (snds) => {
+        //this.initSoundBuffers().then( (buffers) => console.log(buffers)); \
+        // console.log(this.audioContext)
+        // console.log(snds, this.audioContext)
+        return Promise.all(snds.map(src => initBuffer(this.audioContext, src)));   
      }
 
     play(idx, audioParameters, dir){

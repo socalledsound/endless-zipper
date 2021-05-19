@@ -31,3 +31,9 @@ export const getRandomInt = (min, max) => {
 }
 
 export const mapVal = (value, x1, y1, x2, y2) => (value - x1) * (y2 - x2) / (y1 - x1) + x2;
+
+export const degreesToRadians = angle => (Math.PI * angle) / 180;
+export const radiansToDegrees = angle => (angle * (180/Math.PI) + 360) % 360;
+export const radiansToDegrees2 = angle => (angle >= 0 ? angle : (2*Math.PI + angle)) * 360 / (2*Math.PI)
+
+export const range = count => Array.from(Array(count).keys());

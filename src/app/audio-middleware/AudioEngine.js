@@ -19,8 +19,8 @@ class AudioEngine {
         this.reversedBuffers = [];
         this.soundFileDatas = [];
         // this.indexes = Array.from({ length : numSounds}, (el, i) => i);
-        // this.sources = Array.from({ length: numSounds});
-        // this.playingSounds = Array.from({length : numSounds}, () => false);
+        this.sources = Array.from({ length: sounds.length});
+        this.playingSounds = Array.from({length : sounds.length}, () => false);
         //this.init();
     }
 
@@ -60,17 +60,20 @@ class AudioEngine {
         return Promise.all(snds.map(src => initBuffer(this.audioContext, src)));   
      }
 
-    play(idx, audioParameters, dir){
-        this.gainNodes[idx].gain.value = audioParameters.vol;
+
+     //make the offset be the amount that the text object is unzipped....
+     play(idx, audioParameters = {vol: 1.0, rate: 1.0 - (Math.random()/2)}, dir = 1){
+         const gainNode = this.audioContext.createGain()
+         gainNode.gain.value = audioParameters.vol;
         const buf = dir > 0 ? this.buffers[idx] : this.reversedBuffers[idx]; 
-        const offset = Math.abs(0)%buf.duration;
+        // const offset = Math.abs(3)%buf.duration;
         this.sources[idx] = this.audioContext.createBufferSource();
         this.sources[idx].buffer = buf;
-        this.gainNodes[idx].connect(this.audioContext.destination);
-        this.sources[idx].connect(this.gainNodes[idx]);
+        gainNode.connect(this.audioContext.destination);
+        this.sources[idx].connect(gainNode);
         this.sources[idx].loop = true;
         this.sources[idx].playbackRate.value = audioParameters.rate;
-        this.sources[idx].start(0, offset);
+        this.sources[idx].start(0);
         this.playingSounds[idx] = true;
     }
 

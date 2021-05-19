@@ -4,6 +4,12 @@ export const initAudio = () => ({
     type: AudioActionTypes.INIT_AUDIO,
 })
 
+export const playSound = (idx) => ({
+    type: AudioActionTypes.PLAY_SOUND,
+    payload : {
+        idx
+    }
+})
 
 export const playGrain = (grain) => ({
     type : AudioActionTypes.PLAY_GRAIN,

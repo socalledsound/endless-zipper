@@ -26,3 +26,15 @@ export const arcPoints = (numPoints, offsetX, offsetY, radius, length, thetaOffs
             offsetY
         }))
     }
+
+    export const createLinePath = (arr) => {
+        return `M${arr.map((item, i) => [item[0], item[1]]).join('L')}`;
+        
+    }
+
+export const linePoints = (numPoints, x1, y1, x2, y2) => {
+    const distX = (x2 - x1)/numPoints
+    const distY = (y2 - y1)/numPoints
+    const points = range(numPoints)
+    return points.map( idx  => [x1 + (distX * idx), y1 + (distY * idx)])
+}

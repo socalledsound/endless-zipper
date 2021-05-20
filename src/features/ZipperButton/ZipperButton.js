@@ -1,5 +1,6 @@
 import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+// import { useSelector, useDispatch } from 'react-redux'
+import { useSelector  } from 'react-redux'
 import { selectZipperCircle, selectZipperClicked, selectZipperPosition, initTop } from './zipperSlice';
 // import UpDownIcon from '../../icons/UpDownIcon/UpDownIcon'
 import styles from './ZipperButton.module.css';

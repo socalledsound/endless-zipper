@@ -14,7 +14,7 @@ import Modal from './components/Modal/Modal'
 import CloseModal from './components/CloseModal/CloseModal'
 import Main from './features/main/Main'
 import IntroPage from './components/IntroPage/IntroPage'
-
+// import fabric from './assets/fabric.jpg'
 
 const navbarConfig = {
   logo: cloud,
@@ -41,7 +41,7 @@ const App = () => {
   const loading = useSelector(selectLoadingState)
 
   return ( 
-    <React.Fragment>
+    <div >
       <SocalledNavbar 
          config={navbarConfig}
       />
@@ -50,6 +50,7 @@ const App = () => {
             <Main />
             :
             <IntroPage />
+           
       }
 
       {
@@ -60,7 +61,7 @@ const App = () => {
           </Modal>
       }
 
-    </React.Fragment>
+    </div>
    );
 }
  

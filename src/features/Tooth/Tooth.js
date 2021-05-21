@@ -12,6 +12,8 @@ class Tooth {
         this.offsetY = offsetY;
         this.lineHeight = lineHeight;
         this.canvasWidth = canvasWidth;
+        this.originStartY = reverse ? (idx + 1) * lineHeight + offsetY : (idx + 1)  * lineHeight + offsetY + lineHeight/2;
+        this.originStartX = reverse ? center + 100 :  center - 100;
         this.ribbon = this.createRibbon(idx, reverse, center, offsetY, lineHeight, canvasWidth)
         this.dir = 1;
         this.inc = Math.random() * 3 + 1;
@@ -64,6 +66,17 @@ class Tooth {
         ctx.bezierCurveTo(ribbon.c1x, ribbon.c1y, ribbon.c2x, ribbon.c2y, ribbon.endX, ribbon.endY)
         ctx.stroke()
         ctx.restore()
+    }
+
+    curveRibbon(top){
+        // console.log(top, this.originStartY)
+        const dist = top - this.originStartY
+        // console.log(dist)
+        return {
+            ...this.ribbon,
+            startY: this.originStartY - dist,
+            startX : this.reverse ? this.originStartX - dist : this.originStartX + dist,
+        }
     }
 
 
@@ -140,14 +153,11 @@ class Tooth {
         this.fillRibbon(ctx, this.text, this.ribbon)
     }
 
-    update(clicked, zipperTop, currentMousePos, clickedMousePos){
-
-        // if(clicked && currentMousePos > clickedMousePos){
-
-        // }
-        if(clicked){
-            if(this.startY < clickedMousePos - 300){
-
+    update(top){
+            
+            if(this.ribbon.startY < top){
+                // console.log(this.ribbon.startY)
+              this.ribbon = this.curveRibbon(top); 
             }
         }
         
@@ -160,7 +170,7 @@ class Tooth {
         // this.ribbon.c2y -= this.inc * this.dir;
         // this.offsetY -= this.inc/3;
         // this.ribbon = this.createRibbon(this.id, this.offsetX, this.offsetY, this.canvasWidth)
-    }
+    //}
 }
 
 export default Tooth

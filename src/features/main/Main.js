@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { range } from '../../utils'
-import { playSound, stopPlayingSound } from '../../app/audio-middleware/audio.actions'
-import { selectCurrentMousePos, selectClickedMousePos, setClickedMousePos, updateCurrentMousePos } from '../../app/mouseSlice'
+// import { range } from '../../utils'
+// import { playSound, stopPlayingSound } from '../../app/audio-middleware/audio.actions'
+// import { selectCurrentMousePos, selectClickedMousePos, updateCurrentMousePos } from '../../app/mouseSlice'
+import { selectCurrentMousePos, updateCurrentMousePos } from '../../app/mouseSlice'
 import { selectCanvasWidth, selectCanvasHeight } from './mainSlice'
-import { selectZipperClicked, toggleZipperClicked } from '../ZipperButton/zipperSlice'
+// import { selectZipperClicked, selectZipperPosition } from '../ZipperButton/zipperSlice'
+import { selectZipperPosition } from '../ZipperButton/zipperSlice'
 import { titles } from '../../app/sounds-info/sounds'
 import Canvas from '../../components/Canvas/Canvas'
 import ZipperButton from '../ZipperButton/ZipperButton'
@@ -21,24 +23,31 @@ const Main = () => {
     const canvasWidth = useSelector(selectCanvasWidth)
     const canvasHeight = useSelector(selectCanvasHeight)
     const currentMousePos = useSelector(selectCurrentMousePos)
-    const clickedMousePos = useSelector(selectClickedMousePos)
-    const clicked = useSelector(selectZipperClicked)
+    // const clickedMousePos = useSelector(selectClickedMousePos)
+    // const clicked = useSelector(selectZipperClicked)
+    const { top } = useSelector(selectZipperPosition)
+    // console.log(top)
+    const [stateTop, setTop ] = useState(top)
 
-    const startZip = (e) => {
-        console.log('start')
-        dispatch(setClickedMousePos({x: e.clientX, y: e.clientY}))
-        dispatch(toggleZipperClicked())
-        const indexes = range(10) 
-        indexes.forEach( idx => dispatch(playSound(idx)))
-        
-    }
 
-    const stopZip = () => {
-        console.log('stop')
-        dispatch(toggleZipperClicked())
-        const indexes = range(10) 
-        indexes.forEach( idx => dispatch(stopPlayingSound(idx)))
-    }
+    useEffect(() => {
+
+        setTop(top)
+
+    }, [top])
+
+
+
+    useEffect(() => {
+
+        const setFromEvent = (e) =>  dispatch(updateCurrentMousePos({x: e.clientX, y: e.clientY}))
+
+        window.addEventListener("mousemove", setFromEvent)
+        return () => {
+            window.removeEventListener('mousemove', setFromEvent)
+        }
+    }, [dispatch])
+    // onMouseMove={(e) => dispatch(updateCurrentMousePos({x: e.clientX, y: e.clientY}))}
 
 
     const center = window.innerWidth/2;
@@ -48,13 +57,14 @@ const Main = () => {
     const reverseTeeth = Array.from({ length: numTeeth}, (el, i) => new Tooth(i, true, center, offsetY, lineHeight, canvasWidth))
 
     const draw = (ctx, count) => {
+        
         ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
         teeth.forEach(tooth => {
-            tooth.update(clicked, currentMousePos, clickedMousePos)
+            tooth.update(stateTop)
             tooth.render(ctx)
         })
         reverseTeeth.forEach(tooth => {
-            tooth.update()
+            tooth.update(stateTop)
             tooth.render(ctx)
         })
 
@@ -62,13 +72,13 @@ const Main = () => {
     
     return ( 
         <div className={styles.mainContainer} 
-            onMouseMove={(e) => dispatch(updateCurrentMousePos({x: e.clientX, y: e.clientY}))}
-            onMouseUp={() => stopZip()}
+           
+            // onMouseUp={() => stopZip()}
             >
 
       
             <Canvas className="wave-canvas" draw={draw} width={canvasWidth} height={canvasHeight}/>
-            < ZipperButton currentMousePos={currentMousePos} startZip={startZip} stopZip={stopZip}/>
+            < ZipperButton currentMousePos={currentMousePos}/>
         </div>
      );
 }

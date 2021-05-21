@@ -25,8 +25,11 @@ const zipperSlice = createSlice({
     name: 'zipper',
     initialState,
     reducers : {
-        updateZipperPos : (state, action) => {
-            state.position = action.payload
+        updateZipperPosition : (state, action) => {
+            // console.log(action.payload)
+            const newPosition = {...state.position, top: action.payload}
+            console.log(newPosition)
+            state.position = newPosition
         },
         toggleZipperClicked: (state) => {
             state.clicked = !state.clicked

@@ -1,7 +1,9 @@
-import React from 'react'
-// import { useSelector, useDispatch } from 'react-redux'
-import { useSelector  } from 'react-redux'
-import { selectZipperCircle, selectZipperClicked, selectZipperPosition, initTop } from './zipperSlice';
+import React, {useEffect} from 'react'
+import { range } from '../../utils'
+import { playSound, stopPlayingSound } from '../../app/audio-middleware/audio.actions'
+import { useSelector, useDispatch  } from 'react-redux'
+import { setClickedMousePos } from '../../app/mouseSlice' 
+import { toggleZipperClicked, selectZipperCircle, selectZipperClicked, selectZipperPosition, updateZipperPosition } from './zipperSlice';
 // import UpDownIcon from '../../icons/UpDownIcon/UpDownIcon'
 import styles from './ZipperButton.module.css';
 
@@ -13,24 +15,80 @@ const upDownCircleColor = '#fff0ff'
 
 
 
-const ZipperButton = ({startZip, currentMousePos}) => {
+const ZipperButton = ({currentMousePos}) => {
+    
 
+    const dispatch = useDispatch()
     const { x, y, size } = useSelector(selectZipperCircle)
     const clicked = useSelector(selectZipperClicked)
     const {top, left } = useSelector(selectZipperPosition)
-    let newTopVal = top;
-    if(clicked){
-        if(currentMousePos.y > initTop){
-            newTopVal = currentMousePos.y - 200
-        } else {
-            newTopVal = initTop
-        }
+
+    const startZip = (e) => {
+        console.log('start')
+        dispatch(setClickedMousePos({x: e.clientX, y: e.clientY}))
+        dispatch(toggleZipperClicked())
+        const indexes = range(10) 
+        indexes.forEach( idx => dispatch(playSound(idx)))
+        
     }
+
+
+
+
+    useEffect(() => {
+        const stopZip = () => {
+            console.log('stop')
+            dispatch(toggleZipperClicked())
+            const indexes = range(10) 
+            indexes.forEach( idx => dispatch(stopPlayingSound(idx)))
+        }
+        // const setFromEvent = (e) =>  dispatch(updateCurrentMousePos({x: e.clientX, y: e.clientY}))
+
+        window.addEventListener("mouseup", stopZip)
+        return () => {
+            window.removeEventListener('mouseup', stopZip)
+        }
+    }, [dispatch])
+
+
+
+    useEffect(() => {
+
+        // console.log(newTopVal)
+        if(clicked){
+            const newTopVal = currentMousePos.y - 200
+            dispatch(updateZipperPosition(newTopVal))
+            // if(currentMousePos.y < initTop){
+            //     newTopVal = initTop  
+            // } else {
+                // dispatch(updateZipperPosition(newTopVal))
+            }
+    })
+
+
+    // let newTopVal = top;
+    // console.log(newTopVal)
+    // if(clicked){
+    //     newTopVal = currentMousePos.y - 200
+        // if(currentMousePos.y < initTop){
+        //     newTopVal = initTop  
+        // } else {
+            // dispatch(updateZipperPosition(newTopVal))
+       // }
+        // if(newTopVal < initTop){
+        //     newTopVal = initTop
+        // }
+
+        // console.log(newTopVal)
+        // console.log(updateZipperPosition(newTopVal))
+        //need to figure out how to do this sort of thing with hooks
+        //and maybe sagas
+    
      
 
 
     return ( 
-        <div className={styles.button} style={{left: `${left}px`, top: `${newTopVal}px`}}>
+        <div className={styles.button} style={{left: `${left}px`, top: `${top}px`}}>
               <svg  viewBox="0 0 200 400">
         
         {/* <circle cx={x} cy={y} r={size} fill="#333"/> */}

@@ -191,14 +191,6 @@ class Tooth {
         
 
 
-        // if(this.ribbon.c1y > window.innerHeight * 0.9 || this.ribbon.c1y < -200){
-        //     this.dir *= -1
-        // }
-        // this.ribbon.c1y += this.inc * this.dir;
-        // this.ribbon.c2y -= this.inc * this.dir;
-        // this.offsetY -= this.inc/3;
-        // this.ribbon = this.createRibbon(this.id, this.offsetX, this.offsetY, this.canvasWidth)
-    //}
 }
 
 export default Tooth

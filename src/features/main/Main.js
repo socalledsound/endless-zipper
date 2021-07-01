@@ -52,7 +52,7 @@ const Main = () => {
         // console.log(teeth)
         ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
-        ctx.drawImage(image, 0,0, canvasHeight, canvasWidth)
+        // ctx.drawImage(image, 0,0, canvasHeight, canvasWidth)
 
         teeth.forEach(tooth => {
             tooth.update(stateTop, false)
@@ -84,32 +84,3 @@ const Main = () => {
  
 export default Main;
 
-
-// originally tried this with svg because I wanted to have curved text initially;
-// it was just too slow so I made a canvas implementation
-
-// <MainSVG canvasWidth={canvasWidth} canvasHeight={canvasHeight}>
-// {
-//    teeth.map( tooth => {
-    
-//     const id = `tooth-${tooth.id}`
-//     console.log(tooth.path)
-//     return (
-//         <g key={`tooth-group-${tooth.id}`}> 
-//         <path 
-//             id={id}
-//             d={tooth.path}
-//             fill='transparent'
-//         />
-//         <text style={{width: '100px', height: '100px', fontSize:'20px'}} width={canvasWidth} height={100} x={tooth.pos.x} y={tooth.pos.y} fill="#000">
-//         <textPath alignmentBaseline="top" xlinkHref={id}>
-//             {tooth.text} this is some more text
-//         </textPath>
-//         </text>
-//         </g>
-//     )
-
-//    })
-// }
-
-// </MainSVG>

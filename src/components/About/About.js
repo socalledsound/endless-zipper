@@ -14,7 +14,7 @@ min-height: 50vh;
 const About = () => {
     return ( 
         <AboutDiv>
-           <p>just another endless zipper.  ¯\_(ツ)_/¯  </p>
+           <p>just a zipper made out of zippers.  ¯\_(ツ)_/¯  </p>
            <p>more projects like this at <a href='www.socalledsound.com'>www.socalledsound.com</a></p>
            
         </AboutDiv>

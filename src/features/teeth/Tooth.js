@@ -19,7 +19,7 @@ class Tooth {
         this.canvasWidth = canvasWidth;
         this.font = font;
         this.originStartY = reverse ? (idx + 1) * lineHeight + offsetY : (idx + 1)  * lineHeight + offsetY + lineHeight/2;
-        this.originStartX = reverse ? center + 1000 :  center - 1000;
+        this.originStartX = reverse ? center + window.innerWidth/2 :  center - window.innerWidth/2;
         this.originStartXCurved = reverse ? center + 100 :  center - 100;
         this.ribbon = this.createRibbon(idx, reverse, center, offsetY, lineHeight, canvasWidth)
         this.dir = 1;
@@ -29,6 +29,20 @@ class Tooth {
 
         //numPoints, x1, y1, x2, y2
         // this.path = createLinePath(linePoints(20, this.pos.x, this.pos.y, window.innerWidth, this.pos.y + 100));
+    }
+
+
+    drawBackground(ctx, ribbon){
+        //ctx.bezierCurveTo(ribbon.c1x, ribbon.c1y, ribbon.c2x, ribbon.c2y, ribbon.endX, ribbon.endY)
+        if(this.reverse){
+            ctx.fillStyle = "black" 
+            ctx.fillRect(ribbon.startX - window.innerWidth, ribbon.startY - 50, window.innerWidth * 1.2, 70)
+        }else{
+            ctx.fillStyle = "grey"
+            ctx.fillRect(ribbon.startX, ribbon.startY - 50, window.innerWidth * 1.2, 70)
+        }   
+       
+        // ctx.fillRect(100,100, 1000, 1000)
     }
 
 
@@ -158,18 +172,20 @@ class Tooth {
 
     render(ctx){
         ctx.font = this.font
-        // this.drawCurve(ctx, this.ribbon)
+        this.drawBackground(ctx, this.ribbon)
+        ctx.fillStyle = "#ececec"
         this.fillRibbon(ctx, this.text, this.ribbon)
     }
 
     update(top, curve){
-            // const adjustedTop = top - 20
-            if(this.ribbon.startY < top){
+            const adjustedTop = top + 100
+            if(this.ribbon.startY < adjustedTop){
                 this.playable = true
                 // console.log(this.ribbon.startY)
-              this.ribbon = this.curveRibbon(top, curve); 
+              this.ribbon = this.curveRibbon(adjustedTop, curve); 
             }else{
                 this.playable = false
+                this.ribbon =this.createRibbon(this.id, this.reverse, this.center, this.offsetY, this.lineHeight, this.canvasWidth)
             }
         }
         

@@ -1,5 +1,5 @@
 import React from 'react'
-// import { NavLink } from 'react-router-dom'
+
 import FlexContainer from './FlexContainer'
 import styled from 'styled-components'
 import { backgroundLinkHoverColor } from './colorPalette'
@@ -27,8 +27,9 @@ const NavbarLogo = ({logo}) => {
     return ( 
         <FlexContainer>
         <NavbarLogoLink  >
-            {/* {<Logo />} */}
-            <Img src={logo} alt="an image of a cloud"/>
+                <a href='http://www.socalledsound.com'>
+                    <Img src={logo} alt="an image of a cloud"/>
+                </a>            
         </NavbarLogoLink >    
         </FlexContainer>
      );

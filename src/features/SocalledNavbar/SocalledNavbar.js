@@ -35,7 +35,9 @@ const SocalledNavbar = ({ config }) => {
              <FlexContainerGrow>
                 {<NavbarLogoImg logo={config.logo} />}
              </FlexContainerGrow>
-
+             <FlexContainerGrow>
+                <div style={{color: 'white'}}>too many zippers</div>
+            </FlexContainerGrow>
              <FlexContainer >
             {
                 config && 

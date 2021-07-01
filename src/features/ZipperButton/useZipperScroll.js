@@ -9,7 +9,7 @@ import { playSound, stopPlayingSound, updatePitch} from '../../app/audio-middlew
 
 const timing = (1 / 60) * 1000;
 
-export default function useZipperScroll(zipperRef, mainRef, currentMousePos, circleSize){
+export default function useZipperScroll(mainRef, zipperRef, currentMousePos, circleSize){
     const teeth = useSelector(selectTeeth)
     const { top } = useSelector(selectZipperPosition)
     const  currentCanvasTop = useSelector(selectCanvasTop)
@@ -37,8 +37,11 @@ export default function useZipperScroll(zipperRef, mainRef, currentMousePos, cir
 
 
     const stopZip = useCallback(() => {
-            toggleClicked(!clicked)
-            dispatch(toggleZipperClicked())
+
+            if(clicked){
+                dispatch(toggleZipperClicked())
+            }
+            toggleClicked(false)    
             teeth.forEach(tooth => {
                 if(tooth.playing){
                     dispatch(stopPlayingSound(tooth.id))
@@ -55,36 +58,37 @@ export default function useZipperScroll(zipperRef, mainRef, currentMousePos, cir
 
 
     useEffect(() => {
-        window.addEventListener("mouseup", stopZip)
-        return () => {
-            window.removeEventListener('mouseup', stopZip)
+        // window.addEventListener("mouseup", stopZip)
+        // return () => {
+        //     window.removeEventListener('mouseup', stopZip)
+        // }
+        if(mainRef.current){
+            mainRef.current.onmouseup = stopZip
         }
     })
 
     useEffect(()=>{
-        if(mainRef.current){
+        if(zipperRef.current){
                 if(clicked){
                     const delta = (clickStartY - 135) - currentMousePos.y 
                     console.log(delta)
-                    let newTopVal = currentMousePos.y - 150
+                    let newTopVal = currentMousePos.y - 350
                     console.log(currentCanvasTop)
-                    if(currentCanvasTop < 0 && delta > 0){
-                        dispatch(updateCanvasTop(delta/10)) 
-                    }
-
-                    if(newTopVal > initTop-100){
-                        setZipperPositionY(newTopVal)
-                        dispatch(updateZipperPosition(newTopVal))
-                        if(newTopVal > initTop + 200){
-                            dispatch(updateZipperPosition(newTopVal))
-                           if(delta < 0){
-                            dispatch(updateCanvasTop(delta/100))
+                    dispatch(updateZipperPosition(newTopVal))
+                    if(currentCanvasTop < 10)
+                        if(delta < 0){
+                            dispatch(updateCanvasTop(delta/50))
+                           
                            }else{
                             dispatch(updateCanvasTop(delta/10))  
                            }
-                            
-                        }
+                    
+
+                    if(newTopVal > initTop && newTopVal < initTop + 400){
+                        setZipperPositionY(newTopVal)
+                        dispatch(updateCanvasTop(delta/100)) 
                     }
+                    
 
                     if(Math.abs(delta) > 1){
                         setIsDragging(true)
@@ -109,7 +113,7 @@ export default function useZipperScroll(zipperRef, mainRef, currentMousePos, cir
 
             }
         }    
-    }, [mainRef, clicked, clickedMousePos, currentMousePos, zipperPositionY, clickStartY,scrollStartY, currentCanvasTop, teeth, speed, dispatch, handleLastScrollX, lastScrollX])
+    }, [zipperRef, clicked, clickedMousePos, currentMousePos, zipperPositionY, clickStartY,scrollStartY, currentCanvasTop, teeth, speed, dispatch, handleLastScrollX, lastScrollX])
 
 
     useEffect(() => {
@@ -120,18 +124,25 @@ export default function useZipperScroll(zipperRef, mainRef, currentMousePos, cir
     })
 
     const handleClick = (e) => {
+        console.log('clicked')
+        e.stopPropagation()
         if(mainRef.current){
-            toggleClicked(!clicked)
-            dispatch(toggleZipperClicked())
-            setClickStartY(e.screenY)
-            setScrollStartY(mainRef.current.scrollTop)
-            setDirection(0)
-            teeth.forEach(tooth => {
-                if(tooth.playable && !tooth.playing){
-                    dispatch(playSound(tooth.id))
-                    tooth.playing = true
+            if(zipperRef.current){
+                if(!clicked){
+                    dispatch(toggleZipperClicked())
                 }
-            })
+                toggleClicked(true)
+                setClickStartY(e.screenY)
+                setScrollStartY(mainRef.current.scrollTop - 200)
+                setDirection(0)
+                teeth.forEach(tooth => {
+                    if(tooth.playable && !tooth.playing){
+                        dispatch(playSound(tooth.id))
+                        tooth.playing = true
+                    }
+                })
+            }
+
         }
     }
     return {clicked, isDragging, direction, speed, handleClick}

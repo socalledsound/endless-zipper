@@ -14,7 +14,8 @@ class Tooth {
         this.lineHeight = lineHeight;
         this.canvasWidth = canvasWidth;
         this.originStartY = reverse ? (idx + 1) * lineHeight + offsetY : (idx + 1)  * lineHeight + offsetY + lineHeight/2;
-        this.originStartX = reverse ? center + 500 :  center - 500;
+        this.originStartX = reverse ? center + 1000 :  center - 1000;
+        this.originStartXCurved = reverse ? center + 100 :  center - 100;
         this.ribbon = this.createRibbon(idx, reverse, center, offsetY, lineHeight, canvasWidth)
         this.dir = 1;
         this.inc = Math.random() * 3 + 1;
@@ -74,14 +75,15 @@ class Tooth {
     curveRibbon(top, curved){
         // console.log(top, this.originStartY)
         this.dist = top - this.originStartY
-        const newStartY = this.originStartY - (this.dist * 4);
-        const curve = newStartY > this.originStartY ? newStartY : this.originStartY
-        const flatDisplace = newStartY < this.originStartY ? newStartY : this.originStartY 
+        const newStartY = this.originStartY - (this.dist * 5);
+        const curve = newStartY < this.originStartY ? newStartY : this.originStartY
+        const flatDisplace = newStartY > this.originStartY ? newStartY : this.originStartY 
         const newPos = curved ? curve : flatDisplace
+        const originX = curved ? this.originStartXCurved : this.originStartX
         return {
             ...this.ribbon,
             startY: newPos,
-            startX : this.reverse ? this.originStartX - this.dist : this.originStartX + this.dist,
+            startX : this.reverse ? originX - (this.dist * 10) : originX + (this.dist * 10),
         }
     }
 

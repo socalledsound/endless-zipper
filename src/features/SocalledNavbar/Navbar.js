@@ -5,8 +5,8 @@ import styled from 'styled-components'
 const NavbarEl = styled.nav`
   margin: auto;
   width: 100%;
-  background-color: rgba(50, 50, 50, 0.5)
-
+  background-color: rgba(150, 10, 150, 0.5);
+  z-index: 10;
 `
 
 const NavbarList = styled.ul`

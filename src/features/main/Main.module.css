@@ -4,7 +4,11 @@
 }
 .mainContainer {
   padding-top: 2rem;
-  /* background-color: black; */
+  position: absolute;
+  top: 200px;
+  height: 90vh;
+  display: inline-block;
+  background-color: black;
 }
 .canvas {
   position: absolute;

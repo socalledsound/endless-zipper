@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { selectModalContentIdx, selectModalState } from './features/SocalledNavbar/SocalledNavBarSlice.js'
 import { selectLoadingState } from './features/main/mainSlice'
@@ -15,7 +15,7 @@ import CloseModal from './components/CloseModal/CloseModal'
 import Main from './features/main/Main'
 import IntroPage from './components/IntroPage/IntroPage'
 import 'normalize.css'
-// import fabric from './assets/fabric.jpg'
+import fabric from './assets/fabric.jpg'
 
 const navbarConfig = {
   logo: cloud,
@@ -41,9 +41,10 @@ const App = () => {
  
   const loading = useSelector(selectLoadingState)
 
-  // useEffect(() => {
-  //   document.body.style.backgroundColor = '#73a9ff'
-  // })
+  useEffect(() => {
+    // document.body.style.backgroundColor = '#73a9ff'
+    document.body.style.backgroundImage = fabric
+  })
 
 
   return ( 

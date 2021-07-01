@@ -26,6 +26,7 @@ const ModalContainer = styled.div`
     box-sizing: border-box;
     border-radius: 0.3rem;
     border: 1px solid rgba(200, 200, 200, 0.3);
+    z-index: 20;
 `;
 
 const Modal = ({children}) => {

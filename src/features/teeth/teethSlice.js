@@ -4,7 +4,7 @@ import Tooth from './Tooth'
 
 const numTeeth = titles.length;
 const center = window.innerWidth/2;
-const offsetY = 300;
+const offsetY = 100;
 const lineHeight = 75;
 const teeth = Array.from({ length: numTeeth}, (el, i) => new Tooth(i, false, center, offsetY, lineHeight, window.innerWidth))
 const reverseTeeth = Array.from({ length: numTeeth}, (el, i) => new Tooth(i, true, center, offsetY, lineHeight, window.innerWidth))

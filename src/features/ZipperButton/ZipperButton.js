@@ -29,7 +29,7 @@ const ZipperButton = ({currentMousePos, mainRef}) => {
     const zipperRef = useRef();
     // const dispatch = useDispatch()
 
-    const {clicked, handleClick} = useZipperScroll(zipperRef, mainRef, currentMousePos, circle.size)
+    const {clicked, handleClick} = useZipperScroll(mainRef,zipperRef, currentMousePos, circle.size)
 
 
 

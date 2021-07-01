@@ -86,16 +86,16 @@ export default function useZipperScroll(mainRef, zipperRef, currentMousePos, cir
                     if(currentCanvasTop < 10)
 
                         if(delta < 0){
-                            dispatch(updateCanvasTop(delta/50))
+                            dispatch(updateCanvasTop(delta/20))
                            
                            }else{
-                            dispatch(updateCanvasTop(delta/10))  
+                            dispatch(updateCanvasTop(delta/20))  
                            }
                     
 
                     if(newTopVal > initTop && newTopVal < initTop + 400){
                         setZipperPositionY(newTopVal)
-                        dispatch(updateCanvasTop(delta/100)) 
+                        dispatch(updateCanvasTop(delta/50)) 
                     }
                     
 

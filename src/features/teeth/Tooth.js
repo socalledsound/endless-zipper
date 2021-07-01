@@ -1,5 +1,6 @@
 import { titles, sounds } from '../../app/sounds-info/sounds'
 import { Bezier, Bezier2 } from './bezier-utils'
+
 // import { createCirclePath, arcPoints } from './tooth-utils'
 // import { createLinePath, linePoints } from './tooth-utils'
 class Tooth {
@@ -17,6 +18,8 @@ class Tooth {
         this.ribbon = this.createRibbon(idx, reverse, center, offsetY, lineHeight, canvasWidth)
         this.dir = 1;
         this.inc = Math.random() * 3 + 1;
+        this.playable = false
+        this.playing = false
 
         //numPoints, x1, y1, x2, y2
         // this.path = createLinePath(linePoints(20, this.pos.x, this.pos.y, window.innerWidth, this.pos.y + 100));
@@ -68,14 +71,17 @@ class Tooth {
         ctx.restore()
     }
 
-    curveRibbon(top){
+    curveRibbon(top, curved){
         // console.log(top, this.originStartY)
-        const dist = top - this.originStartY
-        // console.log(dist)
+        this.dist = top - this.originStartY
+        const newStartY = this.originStartY - (this.dist * 4);
+        const curve = newStartY > this.originStartY ? newStartY : this.originStartY
+        const flatDisplace = newStartY < this.originStartY ? newStartY : this.originStartY 
+        const newPos = curved ? curve : flatDisplace
         return {
             ...this.ribbon,
-            startY: this.originStartY - dist,
-            startX : this.reverse ? this.originStartX - dist : this.originStartX + dist,
+            startY: newPos,
+            startX : this.reverse ? this.originStartX - this.dist : this.originStartX + this.dist,
         }
     }
 
@@ -143,10 +149,6 @@ class Tooth {
     }
 
 
-    playSound(){
-
-    }
-
     render(ctx){
         ctx.font = "40px arial black";
         // this.drawCurve(ctx, this.ribbon)
@@ -154,10 +156,13 @@ class Tooth {
     }
 
     update(top){
-            
+            // const adjustedTop = top - 20
             if(this.ribbon.startY < top){
+                this.playable = true
                 // console.log(this.ribbon.startY)
               this.ribbon = this.curveRibbon(top); 
+            }else{
+                this.playable = false
             }
         }
         

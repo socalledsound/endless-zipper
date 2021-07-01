@@ -5,14 +5,17 @@ import styled from 'styled-components'
 const NavbarEl = styled.nav`
   margin: auto;
   width: 100%;
+  background-color: rgba(50, 50, 50, 0.5)
+
 `
 
 const NavbarList = styled.ul`
   display: flex;
   align-items: center;
   list-style: none;
-  margin: 0;
-  margin-top: 0.5rem;
+  margin: auto;
+ 
+
 `
 
 

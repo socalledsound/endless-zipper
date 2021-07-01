@@ -4,12 +4,6 @@ import styled from 'styled-components'
 
 const Button = styled.button`
 
-margin-left: 0.4rem;
-margin-right: 0.4rem;
-
-
-// padding: 2rem;
-//background-color: #fedeff;
 background-color: #505050;
 color: #FAFAFA;
 border: 1px solid #000;
@@ -17,7 +11,6 @@ text-decoration: none;
 border-radius: 0.3rem;
 font-size: 0.9rem;
 width: 5rem;
-height: 5rem;
 vertical-align: middle;
 box-sizing: border-box;
 

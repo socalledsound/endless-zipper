@@ -2,6 +2,8 @@ import React from 'react';
 import styled from 'styled-components'
 
 const BlackCircleDiv = styled.div`
+padding: 0;
+margin-bottom: 1rem;
 float: right;
 cursor: pointer;
 background-color: black;

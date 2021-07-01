@@ -36,7 +36,7 @@ const SocalledNavbar = ({ config }) => {
                 {<NavbarLogoImg logo={config.logo} />}
              </FlexContainerGrow>
 
-             <FlexContainer>
+             <FlexContainer >
             {
                 config && 
                     config.items.length > 0 &&

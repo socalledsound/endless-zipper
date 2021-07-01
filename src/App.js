@@ -5,24 +5,25 @@ import { selectLoadingState } from './features/main/mainSlice'
 import { toggleModal } from './features/SocalledNavbar/SocalledNavBarSlice.js'
 import SocalledNavbar from './features/SocalledNavbar/SocalledNavbar'
 import QuestionMark from './features/SocalledNavbar/QuestionMark'
-import ControlsIcon from './features/SocalledNavbar/ControlsIcon'
+// import ControlsIcon from './features/SocalledNavbar/ControlsIcon'
 import cloud from './features/SocalledNavbar/mario-cloud.png'
 // import Logo from './components/SimonLogo/SimonLogo'
 import About from './components/About/About'
-import Controls from './features/Controls/Controls'
+// import Controls from './features/Controls/Controls'
 import Modal from './components/Modal/Modal'
 import CloseModal from './components/CloseModal/CloseModal'
 import Main from './features/main/Main'
 import IntroPage from './components/IntroPage/IntroPage'
+import 'normalize.css'
 // import fabric from './assets/fabric.jpg'
 
 const navbarConfig = {
   logo: cloud,
   items : [
-    {
-      displayIcon : ControlsIcon, 
-      modalContent : Controls,
-    },
+    // {
+    //   displayIcon : ControlsIcon, 
+    //   modalContent : Controls,
+    // },
     {
       displayIcon : QuestionMark,
       modalContent : About,
@@ -39,6 +40,11 @@ const App = () => {
   const Content = navbarConfig.items[selectedModalIdx].modalContent
  
   const loading = useSelector(selectLoadingState)
+
+  // useEffect(() => {
+  //   document.body.style.backgroundColor = '#73a9ff'
+  // })
+
 
   return ( 
     <div >

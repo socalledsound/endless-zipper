@@ -1,34 +1,24 @@
 import { createSlice } from '@reduxjs/toolkit'
-
 const minTopVal = 600
-const initX = 100
-const initY = 200
 const circleSize = 100
 const centerOffset = 85
 export const initLeft = window.innerWidth/2 - centerOffset
-export const initTop = minTopVal - (circleSize * 2)
-
-const initialState = {
-    clicked : false,
-    position : { 
-        left: initLeft,
-        top: initTop, 
-    },
-    circle : {
-        x: initX,
-        y: initY,
-        size: circleSize,
-    } 
-}
+export const initTop = minTopVal - (circleSize * 2) - 100
 
 const zipperSlice = createSlice({
     name: 'zipper',
-    initialState,
+    initialState: {
+        clicked : false,
+        position : { 
+            left: initLeft,
+            top: initTop, 
+        },
+    },
     reducers : {
         updateZipperPosition : (state, action) => {
             // console.log(action.payload)
             const newPosition = {...state.position, top: action.payload}
-            console.log(newPosition)
+            // console.log(newPosition)
             state.position = newPosition
         },
         toggleZipperClicked: (state) => {
@@ -37,7 +27,7 @@ const zipperSlice = createSlice({
     }
 })
 
-export const selectZipperCircle = (state) => state.zipper.circle
+// export const selectZipperCircle = (state) => state.zipper.circle
 export const selectZipperClicked = (state) => state.zipper.clicked
 export const selectZipperPosition = (state) => state.zipper.position
 

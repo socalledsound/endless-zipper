@@ -1,13 +1,23 @@
-import React, {useEffect} from 'react'
-import { range } from '../../utils'
-import { playSound, stopPlayingSound } from '../../app/audio-middleware/audio.actions'
-import { useSelector, useDispatch  } from 'react-redux'
-import { setClickedMousePos } from '../../app/mouseSlice' 
-import { toggleZipperClicked, selectZipperCircle, selectZipperClicked, selectZipperPosition, updateZipperPosition } from './zipperSlice';
+import React from 'react'
+import { useRef } from 'react'
+// import { range } from '../../utils'
+// import { useDispatch } from 'react-redux'
+// import { setClickedMousePos } from '../../app/mouseSlice' 
+
+// import { toggleZipperClicked } from './zipperSlice' 
+import useZipperScroll from './useZipperScroll'
 // import UpDownIcon from '../../icons/UpDownIcon/UpDownIcon'
 import styles from './ZipperButton.module.css';
 
+const initX = 100
+const initY = 200
+const circleSize = 100
 
+const circle = {
+    x: initX,
+    y: initY,
+    size: circleSize,
+}
 
 
 const upDownCircleColor = '#fff0ff'
@@ -15,97 +25,37 @@ const upDownCircleColor = '#fff0ff'
 
 
 
-const ZipperButton = ({currentMousePos}) => {
-    
+const ZipperButton = ({currentMousePos, mainRef}) => {
+    const zipperRef = useRef();
+    // const dispatch = useDispatch()
 
-    const dispatch = useDispatch()
-    const { x, y, size } = useSelector(selectZipperCircle)
-    const clicked = useSelector(selectZipperClicked)
-    const {top, left } = useSelector(selectZipperPosition)
+    const {clicked, handleClick} = useZipperScroll(zipperRef, mainRef, currentMousePos, circle.size)
 
-    const startZip = (e) => {
-        console.log('start')
-        dispatch(setClickedMousePos({x: e.clientX, y: e.clientY}))
-        dispatch(toggleZipperClicked())
-        const indexes = range(10) 
-        indexes.forEach( idx => dispatch(playSound(idx)))
-        
-    }
-
-
-
-
-    useEffect(() => {
-        const stopZip = () => {
-            console.log('stop')
-            dispatch(toggleZipperClicked())
-            const indexes = range(10) 
-            indexes.forEach( idx => dispatch(stopPlayingSound(idx)))
-        }
-        // const setFromEvent = (e) =>  dispatch(updateCurrentMousePos({x: e.clientX, y: e.clientY}))
-
-        window.addEventListener("mouseup", stopZip)
-        return () => {
-            window.removeEventListener('mouseup', stopZip)
-        }
-    }, [dispatch])
-
-
-
-    useEffect(() => {
-
-        // console.log(newTopVal)
-        if(clicked){
-            const newTopVal = currentMousePos.y - 200
-            dispatch(updateZipperPosition(newTopVal))
-            // if(currentMousePos.y < initTop){
-            //     newTopVal = initTop  
-            // } else {
-                // dispatch(updateZipperPosition(newTopVal))
-            }
-    })
-
-
-    // let newTopVal = top;
-    // console.log(newTopVal)
-    // if(clicked){
-    //     newTopVal = currentMousePos.y - 200
-        // if(currentMousePos.y < initTop){
-        //     newTopVal = initTop  
-        // } else {
-            // dispatch(updateZipperPosition(newTopVal))
-       // }
-        // if(newTopVal < initTop){
-        //     newTopVal = initTop
-        // }
-
-        // console.log(newTopVal)
-        // console.log(updateZipperPosition(newTopVal))
-        //need to figure out how to do this sort of thing with hooks
-        //and maybe sagas
-    
-     
 
 
     return ( 
-        <div className={styles.button} style={{left: `${left}px`, top: `${top}px`}}>
+        <div className={styles.button} ref={zipperRef}>
               <svg  viewBox="0 0 200 400">
         
         {/* <circle cx={x} cy={y} r={size} fill="#333"/> */}
         <polygon 
             className="zip-up" 
-            points={`${x},${y - size/1.5},${x + size/2},${y-size/8},${x - size/2},${y-size/8}`} 
+            points={`${circle.x},${circle.y - circle.size/1.5},${circle.x + circle.size/2},${circle.y-circle.size/8},${circle.x - circle.size/2},${circle.y-circle.size/8}`} 
             fill={upDownCircleColor}
         />
 
         <polygon 
             className="zip-down" 
-            points={`${x},${y + size/1.5},${x + size/2},${y+size/8},${x - size/2},${y+size/8}`} 
+            points={`${circle.x},${circle.y + circle.size/1.5},${circle.x + circle.size/2},${circle.y+circle.size/8},${circle.x - circle.size/2},${circle.y+circle.size/8}`} 
             fill={upDownCircleColor}
         />
-       <circle cx={x} cy={y} r={size} fill="red" 
-            onMouseDown={(e) => startZip(e)}
-           
+       <circle 
+            cx={circle.x} cy={circle.y} 
+            r={clicked ? circle.size-10 : circle.size} 
+            fill={clicked ? 'purple' : 'red'} 
+            stroke={clicked ? 'red' : 'none'}
+            strokeWidth='20px'
+            onMouseDown={(e) => handleClick(e)}
             />
 
             

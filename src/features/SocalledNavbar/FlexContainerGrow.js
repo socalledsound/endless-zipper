@@ -2,11 +2,9 @@
 import styled from 'styled-components'
 
 const FlexContainerGrow = styled.div`
+margin-top: 2rem;
+margin-bottom: 2rem;
 
-display: flex;
-align-items: center;
-max-width: 50vw;
-flex-grow: 1;
 `;
 
 export default FlexContainerGrow

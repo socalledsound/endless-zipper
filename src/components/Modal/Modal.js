@@ -17,11 +17,12 @@ const ModalContainer = styled.div`
     left: 0;
     top: 2vh;
     width: 90vw;
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(100, 100, 255, 1.0);
     position: relative;
-    padding-right: 1.2rem;
-    padding-left: 1.2rem;
-    padding-top: 0.8rem;
+    padding: 1.2rem;
+    // padding-right: 1.2rem;
+    // padding-left: 1.2rem;
+    // padding-top: 1.2rem;
     box-sizing: border-box;
     border-radius: 0.3rem;
     border: 1px solid rgba(200, 200, 200, 0.3);

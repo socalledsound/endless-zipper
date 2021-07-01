@@ -4,6 +4,7 @@ import navbarReducer from '../features/SocalledNavbar/SocalledNavBarSlice'
 import mainReducer from '../features/main/mainSlice'
 import mouseReducer from './mouseSlice'
 import zipperReducer from '../features/ZipperButton/zipperSlice'
+import teethReducer from '../features/teeth/teethSlice'
 import audioMiddleWare from './audio-middleware/audio.middleware'
 
 export const store = configureStore({
@@ -13,6 +14,7 @@ export const store = configureStore({
     main : mainReducer,
     mouse : mouseReducer,
     zipper : zipperReducer,
+    teeth: teethReducer
   },
   middleware: [audioMiddleWare]
 });

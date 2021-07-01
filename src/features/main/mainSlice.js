@@ -2,7 +2,8 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
     canvasWidth : window.innerWidth,
-    canvasHeight: window.innerHeight,
+    canvasHeight: window.innerHeight * 2,
+    canvasTop: 0,
     loading : false, 
 }
 
@@ -13,14 +14,19 @@ const mainSlice = createSlice({
         toggleLoading: (state) => {
             state.loading = !state.loading
         },
+        updateCanvasTop: (state, action) => {
+            console.log(action.payload)
+            state.canvasTop += action.payload
+        }
     }
 
 })
 
-export const { toggleLoading } = mainSlice.actions
+export const { toggleLoading, updateCanvasTop } = mainSlice.actions
 
 export const selectCanvasWidth = (state) => state.main.canvasWidth
 export const selectCanvasHeight = (state) => state.main.canvasHeight
+export const selectCanvasTop = (state) => state.main.canvasTop
 export const selectLoadingState = (state) => state.main.loading
 
 export default mainSlice.reducer

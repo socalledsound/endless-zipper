@@ -1,57 +1,34 @@
 import React from 'react'
 import { useRef } from 'react'
-// import { range } from '../../utils'
-// import { useDispatch } from 'react-redux'
-// import { setClickedMousePos } from '../../app/mouseSlice' 
-
-// import { toggleZipperClicked } from './zipperSlice' 
 import useZipperScroll from './useZipperScroll'
-// import UpDownIcon from '../../icons/UpDownIcon/UpDownIcon'
 import styles from './ZipperButton.module.css';
-
-const initX = 100
-const initY = 200
-const circleSize = 100
-
-const circle = {
-    x: initX,
-    y: initY,
-    size: circleSize,
-}
-
-
-const upDownCircleColor = '#fff0ff'
-
-
-
+import { controlCircle } from '../../globalSettings' 
 
 const ZipperButton = ({currentMousePos, mainRef}) => {
+
     const zipperRef = useRef();
-    // const dispatch = useDispatch()
-
-    const {clicked, handleClick} = useZipperScroll(mainRef,zipperRef, currentMousePos, circle.size)
-
-
+    //the main event here is in the custom hook
+    const {clicked, handleClick} = useZipperScroll(mainRef,zipperRef, currentMousePos, controlCircle.size)
 
     return ( 
         <div className={styles.button} ref={zipperRef}>
               <svg  viewBox="0 0 200 400">
         
-        {/* <circle cx={x} cy={y} r={size} fill="#333"/> */}
+        {/* <controlCircle cx={x} cy={y} r={size} fill="#333"/> */}
         <polygon 
             className="zip-up" 
-            points={`${circle.x},${circle.y - circle.size/1.5},${circle.x + circle.size/2},${circle.y-circle.size/8},${circle.x - circle.size/2},${circle.y-circle.size/8}`} 
-            fill={upDownCircleColor}
+            points={`${controlCircle.x},${controlCircle.y - controlCircle.size/1.5},${controlCircle.x + controlCircle.size/2},${controlCircle.y-controlCircle.size/8},${controlCircle.x - controlCircle.size/2},${controlCircle.y-controlCircle.size/8}`} 
+            fill={controlCircle.color}
         />
 
         <polygon 
             className="zip-down" 
-            points={`${circle.x},${circle.y + circle.size/1.5},${circle.x + circle.size/2},${circle.y+circle.size/8},${circle.x - circle.size/2},${circle.y+circle.size/8}`} 
-            fill={upDownCircleColor}
+            points={`${controlCircle.x},${controlCircle.y + controlCircle.size/1.5},${controlCircle.x + controlCircle.size/2},${controlCircle.y+controlCircle.size/8},${controlCircle.x - controlCircle.size/2},${controlCircle.y+controlCircle.size/8}`} 
+            fill={controlCircle.color}
         />
        <circle 
-            cx={circle.x} cy={circle.y} 
-            r={clicked ? circle.size-10 : circle.size} 
+            cx={controlCircle.x} cy={controlCircle.y} 
+            r={clicked ? controlCircle.size-10 : controlCircle.size} 
             fill={clicked ? 'purple' : 'red'} 
             stroke={clicked ? 'red' : 'none'}
             strokeWidth='20px'

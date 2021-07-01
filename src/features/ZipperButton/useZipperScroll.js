@@ -1,18 +1,23 @@
+/*
+this might be a little bulky, should I break this up?
+*/
+
 import { useState, useEffect, useCallback } from 'react'
 import { useSelector, useDispatch  } from 'react-redux'
 import throttle from 'lodash/throttle';
 import { selectClickedMousePos } from '../../app/mouseSlice' 
 import { updateCanvasTop, selectCanvasTop } from '../main/mainSlice'
-import { initLeft, initTop, selectZipperPosition, updateZipperPosition, toggleZipperClicked} from './zipperSlice';
+import { selectZipperPosition, updateZipperPosition, toggleZipperClicked} from './zipperSlice';
 import { selectTeeth } from '../teeth/teethSlice'
 import { playSound, stopPlayingSound, updatePitch} from '../../app/audio-middleware/audio.actions'
+import { initLeft, initTop } from '../../globalSettings'
 
 const timing = (1 / 60) * 1000;
 
 export default function useZipperScroll(mainRef, zipperRef, currentMousePos, circleSize){
     const teeth = useSelector(selectTeeth)
     const { top } = useSelector(selectZipperPosition)
-    const  currentCanvasTop = useSelector(selectCanvasTop)
+    const currentCanvasTop = useSelector(selectCanvasTop)
     const clickedMousePos = useSelector(selectClickedMousePos)
     const dispatch = useDispatch()
     const [clicked, toggleClicked ] = useState(false)
@@ -25,19 +30,19 @@ export default function useZipperScroll(mainRef, zipperRef, currentMousePos, cir
     const [lastScrollX, setLastScrollX] = useState(0);
     const [speed, setSpeed] = useState(0);
 
+
+    //i don't think memoization will help here
     // const startZip = useCallback(() =>{
-        
     //         console.log('start')
     //         // dispatch(setClickedMousePos({x: e.clientX, y: e.clientY}))
     //         // dispatch(toggleZipperClicked())
     //         //const indexes = range(10) 
     //         // indexes.forEach( idx => dispatch(playSound(idx)))
-        
     // })
 
 
+    //memoization probably doesn't help here, either
     const stopZip = useCallback(() => {
-
             if(clicked){
                 dispatch(toggleZipperClicked())
             }
@@ -50,6 +55,7 @@ export default function useZipperScroll(mainRef, zipperRef, currentMousePos, cir
             })  
     }, [teeth, clicked, dispatch])
 
+    //i'm not sure this throttle is working as expected
     const handleLastScrollX = useCallback( () => {
         throttle(screenX => {
             setLastScrollX(screenX)
@@ -75,7 +81,10 @@ export default function useZipperScroll(mainRef, zipperRef, currentMousePos, cir
                     let newTopVal = currentMousePos.y - 350
                     console.log(currentCanvasTop)
                     dispatch(updateZipperPosition(newTopVal))
+                    
+                    //i should use direction here
                     if(currentCanvasTop < 10)
+
                         if(delta < 0){
                             dispatch(updateCanvasTop(delta/50))
                            
@@ -106,7 +115,7 @@ export default function useZipperScroll(mainRef, zipperRef, currentMousePos, cir
                         }
 
                         if(tooth.playing){
-                            dispatch(updatePitch(tooth.id, speed/50))
+                            dispatch(updatePitch(tooth.id, speed/100))
                         }
                     })
 

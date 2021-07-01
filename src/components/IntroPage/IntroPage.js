@@ -19,7 +19,7 @@ const IntroPage = () => {
             {/* put a background image under the button and text */}
             <LoadingButton startLoading={loadSounds}/>
             
-            <p>intro text here</p>
+            <p>click through to zippers</p>
             
         </div>
      );

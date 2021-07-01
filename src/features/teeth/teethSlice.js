@@ -1,13 +1,21 @@
+/*
+initialize and keep track of the teeth, for the canvas
+I actually don't need these to be in redux, since I ended up updating them from the canvas but it seemed easier
+because of the audio, which is triggered from the zipper and gets some data from the teeth positions.
+*/
 import { createSlice } from '@reduxjs/toolkit'
 import { titles } from '../../app/sounds-info/sounds'
 import Tooth from './Tooth'
-
+import { center, offsetY, lineHeight, font } from '../../globalSettings';
 const numTeeth = titles.length;
-const center = window.innerWidth/2;
-const offsetY = 100;
-const lineHeight = 75;
-const teeth = Array.from({ length: numTeeth}, (el, i) => new Tooth(i, false, center, offsetY, lineHeight, window.innerWidth))
-const reverseTeeth = Array.from({ length: numTeeth}, (el, i) => new Tooth(i, true, center, offsetY, lineHeight, window.innerWidth))
+
+
+/*
+tooth wants an id, startX, startY, c1x, c1y, c2x, c2y, endX, endY
+*/
+const teeth = Array.from({ length: numTeeth}, (el, i) => new Tooth(i, false, center, offsetY, lineHeight, window.innerWidth, font))
+const reverseTeeth = Array.from({ length: numTeeth}, (el, i) => new Tooth(i, true, center, offsetY, lineHeight, window.innerWidth, font))
+
 
 const teethSlice = createSlice({
     name: 'teeth',

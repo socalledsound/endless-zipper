@@ -1,22 +1,18 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-// import { useSelector } from 'react-redux'
-// import { range } from '../../utils'
-// import { playSound, stopPlayingSound } from '../../app/audio-middleware/audio.actions'
-// import { selectCurrentMousePos, selectClickedMousePos, updateCurrentMousePos } from '../../app/mouseSlice'
 import { selectCurrentMousePos, updateCurrentMousePos } from '../../app/mouseSlice'
 import { selectCanvasWidth, selectCanvasHeight, selectCanvasTop } from './mainSlice'
-// import { selectZipperClicked, selectZipperPosition } from '../ZipperButton/zipperSlice'
 import { selectZipperPosition } from '../ZipperButton/zipperSlice'
 import { selectTeeth, selectReverseTeeth } from '../teeth/teethSlice'
 import Canvas from '../../components/Canvas/Canvas'
 import ZipperButton from '../ZipperButton/ZipperButton'
-
+import fabric from '../../assets/fabric.jpg'
 import styles from './Main.module.css'
 
-// id, startX, startY, c1x, c1y, c2x, c2y, endX, endY
 
-
+//background image
+const image = new Image()
+image.src = fabric
 
 
 const Main = () => {
@@ -55,6 +51,9 @@ const Main = () => {
     const draw = (ctx, count) => {
         // console.log(teeth)
         ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
+        ctx.drawImage(image, 0,0, canvasHeight, canvasWidth)
+
         teeth.forEach(tooth => {
             tooth.update(stateTop, false)
             tooth.render(ctx)
@@ -86,6 +85,8 @@ const Main = () => {
 export default Main;
 
 
+// originally tried this with svg because I wanted to have curved text initially;
+// it was just too slow so I made a canvas implementation
 
 // <MainSVG canvasWidth={canvasWidth} canvasHeight={canvasHeight}>
 // {

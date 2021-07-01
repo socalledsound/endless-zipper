@@ -1,3 +1,8 @@
+/*
+keeps track of the canvas size and scroll
+and whether the files have loaded
+*/
+
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {

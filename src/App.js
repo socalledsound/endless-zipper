@@ -15,7 +15,6 @@ import CloseModal from './components/CloseModal/CloseModal'
 import Main from './features/main/Main'
 import IntroPage from './components/IntroPage/IntroPage'
 import 'normalize.css'
-import fabric from './assets/fabric.jpg'
 
 const navbarConfig = {
   logo: cloud,
@@ -43,7 +42,7 @@ const App = () => {
 
   useEffect(() => {
     // document.body.style.backgroundColor = '#73a9ff'
-    document.body.style.backgroundImage = fabric
+    // document.body.style.backgroundImage = fabric
   })
 
 

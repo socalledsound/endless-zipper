@@ -1,10 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-// const minTopVal = 600
-// const circleSize = 100
-const centerOffset = 85
-export const initLeft = window.innerWidth/2 - centerOffset
-// export const initTop = minTopVal - (circleSize * 2) - 100
-export const initTop = 100;
+import { initLeft, initTop } from '../../globalSettings'
 const zipperSlice = createSlice({
     name: 'zipper',
     initialState: {

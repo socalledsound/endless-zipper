@@ -1,10 +1,14 @@
+/*
+add a box around each tooth and some other niceties?
+*/
+
 import { titles, sounds } from '../../app/sounds-info/sounds'
 import { Bezier, Bezier2 } from './bezier-utils'
 
 // import { createCirclePath, arcPoints } from './tooth-utils'
 // import { createLinePath, linePoints } from './tooth-utils'
 class Tooth {
-    constructor(idx, reverse, center, offsetY, lineHeight, canvasWidth ){
+    constructor(idx, reverse, center, offsetY, lineHeight, canvasWidth, font){
         this.id = idx;
         this.reverse = reverse;
         this.text = titles[idx];
@@ -13,6 +17,7 @@ class Tooth {
         this.offsetY = offsetY;
         this.lineHeight = lineHeight;
         this.canvasWidth = canvasWidth;
+        this.font = font;
         this.originStartY = reverse ? (idx + 1) * lineHeight + offsetY : (idx + 1)  * lineHeight + offsetY + lineHeight/2;
         this.originStartX = reverse ? center + 1000 :  center - 1000;
         this.originStartXCurved = reverse ? center + 100 :  center - 100;
@@ -152,7 +157,7 @@ class Tooth {
 
 
     render(ctx){
-        ctx.font = "50px arial black";
+        ctx.font = this.font
         // this.drawCurve(ctx, this.ribbon)
         this.fillRibbon(ctx, this.text, this.ribbon)
     }

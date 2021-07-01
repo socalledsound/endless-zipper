@@ -4,6 +4,7 @@ import { initAudio } from '../../app/audio-middleware/audio.actions'
 import { toggleLoading } from '../../features/main/mainSlice'
 import LoadingButton from '../LoadingButton/LoadingButton'
 import styles from './IntroPage.module.css'
+import zipper from '../../assets/zipper.png'
 
 const IntroPage = () => {
 
@@ -19,8 +20,10 @@ const IntroPage = () => {
             {/* put a background image under the button and text */}
             <LoadingButton startLoading={loadSounds}/>
             
-            <p>click through to zippers</p>
-            
+            {/* <p>click through to zippers</p> */}
+            <div>
+                <img src={zipper} alt="" />
+            </div>
         </div>
      );
 }

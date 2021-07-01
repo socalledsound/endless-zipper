@@ -9,7 +9,9 @@
   border-radius: 0.3rem;
   /* transition: all 0.2s ease-in-out; */
   font-weight: 600;
-  background-color: rgba(78, 119, 74, 0.1);
+  background-color: rgba(78, 119, 74, 0.9);
+  color: #ececec;
+  font-size: 2rem;
 }
 
 .button:hover {

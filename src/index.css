@@ -1,6 +1,12 @@
 body {
-  background-color: #fd73ff;
+  /* background-color: #fd73ff;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  background-size: cover;
+  background-size: cover; */
+
+  background-image: radial-gradient(#96c1f1 20%, transparent 20%),
+    radial-gradient(#fafafa 20%, transparent 20%);
+  background-color: #fd73ff;
+  background-position: 0 0, 15px 15px;
+  background-size: 30px 30px;
 }

@@ -56,12 +56,12 @@ const Main = () => {
         // console.log(teeth)
         ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
         teeth.forEach(tooth => {
-            tooth.update(stateTop)
+            tooth.update(stateTop, true)
             tooth.render(ctx)
             // dispatch(updateTeeth())
         })
         reverseTeeth.forEach(tooth => {
-            tooth.update(stateTop)
+            tooth.update(stateTop, true)
             tooth.render(ctx)
             // dispatch(updateReverseTeeth(tooth))
         })

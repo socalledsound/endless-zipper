@@ -14,7 +14,7 @@ class Tooth {
         this.lineHeight = lineHeight;
         this.canvasWidth = canvasWidth;
         this.originStartY = reverse ? (idx + 1) * lineHeight + offsetY : (idx + 1)  * lineHeight + offsetY + lineHeight/2;
-        this.originStartX = reverse ? center + 100 :  center - 100;
+        this.originStartX = reverse ? center + 500 :  center - 500;
         this.ribbon = this.createRibbon(idx, reverse, center, offsetY, lineHeight, canvasWidth)
         this.dir = 1;
         this.inc = Math.random() * 3 + 1;
@@ -31,7 +31,7 @@ class Tooth {
         const ribbon = reverse ? 
             {
             maxChar : 50,
-            startX : center + 100,
+            startX : this.originStartX,
             startY : (idx + 1) * lineHeight + offsetY,
             c1x : center - canvasWidth/4,
             // c1y : offsetY - window.innerHeight/4,
@@ -45,7 +45,7 @@ class Tooth {
             :
                 {
                 maxChar : 50,
-                startX : center - 100,
+                startX : this.originStartX,
                 startY : (idx + 1)  * lineHeight + offsetY + lineHeight/2,
                 c1x : center + canvasWidth/4,
                 // c1y : offsetY - window.innerHeight/4,
@@ -150,17 +150,17 @@ class Tooth {
 
 
     render(ctx){
-        ctx.font = "40px arial black";
+        ctx.font = "50px arial black";
         // this.drawCurve(ctx, this.ribbon)
         this.fillRibbon(ctx, this.text, this.ribbon)
     }
 
-    update(top){
+    update(top, curve){
             // const adjustedTop = top - 20
             if(this.ribbon.startY < top){
                 this.playable = true
                 // console.log(this.ribbon.startY)
-              this.ribbon = this.curveRibbon(top); 
+              this.ribbon = this.curveRibbon(top, curve); 
             }else{
                 this.playable = false
             }
